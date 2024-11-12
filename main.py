@@ -21,13 +21,13 @@ app.add_middleware(
 )
 
 # Caminho para o arquivo de credenciais
-ARQUIVO_CREDENCIAIS = 'c:/Users/moesios/planilha-app/Backend/credentials.json'
+ARQUIVO_CREDENCIAIS = ''
 ESCOPO = ['https://www.googleapis.com/auth/spreadsheets']
 
 credenciais = service_account.Credentials.from_service_account_file(
     ARQUIVO_CREDENCIAIS, scopes=ESCOPO)
 
-ID_PLANILHA = '1L1uxINmH3tK8KK1W7VAoBP11bYd4ry_pPqj7xp2ImU8'
+ID_PLANILHA = ''
 
 class DadosPlanilha(BaseModel):
     aba: str
