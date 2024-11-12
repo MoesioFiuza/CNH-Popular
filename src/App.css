@@ -1,38 +1,91 @@
+/* App.css */
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: #387c5c;
+  padding: 20px;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.button-container {
+  margin: 20px 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button-container button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: #e0dcdc;
+  color: #282c34;
+  border-radius: 5px;
+  transition: background-color 0.6s, color 0.6s;
+}
+
+.button-container button:hover {
+  background-color: #387c5c;
+  color: white; 
+}
+
+.add-blank-field-container {
+  margin: 20px 0;
+}
+
+.add-blank-field-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: #61dafb;
+  color: #282c34;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.add-blank-field-container button:hover {
+  background-color: #21a1f1;
+}
+
+.blank-fields-container {
+  margin: 20px 0;
+}
+
+.blank-fields-container input {
+  margin: 5px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.sheet-data-container {
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+.sheet-data-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sheet-data-container th,
+.sheet-data-container td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.sheet-data-container th {
+  background-color: #f4f4f4;
+}
+
+.sheet-data-container td input {
+  width: 100%;
+  padding: 5px;
+  border: none;
+  background-color: transparent;
 }
