@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 import logging
+from typing import List
 
 app = FastAPI()
 
@@ -31,7 +32,11 @@ ID_PLANILHA = ''
 
 class DadosPlanilha(BaseModel):
     aba: str
-    valores: list
+    valores: List[List[str]]
+
+class LoginData(BaseModel):
+    email: str
+    password: str
 
 @app.get("/")
 def read_root():
@@ -75,28 +80,25 @@ def atualizar_planilha(dados: DadosPlanilha):
         logging.error(f"Erro ao atualizar a planilha: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/adicionar-linha")
-def adicionar_linha(dados: DadosPlanilha):
+@app.post("/login")
+def login(data: LoginData):
     try:
-        logging.info(f"Dados recebidos para adicionar linha: {dados}")
         servico = build('sheets', 'v4', credentials=credenciais)
         planilha = servico.spreadsheets()
-        corpo = {
-            'values': [[""] * len(dados.valores[0])]
-        }
-        logging.info(f"Corpo da solicitação para adicionar linha: {corpo}")
-        resultado = planilha.values().append(
+        resultado = planilha.values().get(
             spreadsheetId=ID_PLANILHA,
-            range=dados.aba,
-            valueInputOption='RAW',
-            insertDataOption='INSERT_ROWS',
-            body=corpo
+            range="Usuários!A1:Z1000"
         ).execute()
-        logging.info(f"Resultado da adição de linha: {resultado}")
+        valores = resultado.get('values', [])
 
-        return {"status": "sucesso", "linhasAdicionadas": resultado.get('updates').get('updatedRows')}
+        # Verifica as credenciais
+        for linha in valores:
+            if linha[0] == data.email and linha[1] == data.password:
+                return {"status": "sucesso"}
+
+        raise HTTPException(status_code=401, detail="Senha Inválida")
     except Exception as e:
-        logging.error(f"Erro ao adicionar linha na planilha: {e}")
+        logging.error(f"Erro ao fazer login: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
