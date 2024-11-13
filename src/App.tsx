@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Login from './Login';
 
 interface Sheet {
   url: string;
@@ -8,19 +9,23 @@ interface Sheet {
 
 const App: React.FC = () => {
   const sheets: Sheet[] = [
-    { url: "https://docs.google.com/spreadsheets/d/1L1uxINmH3tK8KK1W7VAoBP11bYd4ry_pPqj7xp2ImU8/export?format=csv&gid=0", title: "Base Municípios" },
-    { url: "https://docs.google.com/spreadsheets/d/1L1uxINmH3tK8KK1W7VAoBP11bYd4ry_pPqj7xp2ImU8/export?format=csv&gid=372158301", title: "Base de Dados" },
-    { url: "https://docs.google.com/spreadsheets/d/1L1uxINmH3tK8KK1W7VAoBP11bYd4ry_pPqj7xp2ImU8/export?format=csv&gid=1897837305", title: "Usuários" },
-    { url: "https://docs.google.com/spreadsheets/d/1L1uxINmH3tK8KK1W7VAoBP11bYd4ry_pPqj7xp2ImU8/export?format=csv&gid=75694551", title: "Regionais" },
-    { url: "https://docs.google.com/spreadsheets/d/1L1uxINmH3tK8KK1W7VAoBP11bYd4ry_pPqj7xp2ImU8/export?format=csv&gid=898988254", title: "Fases Contratação" }
+    { url: " },
+    { url: "" },
+    { url: "" },
+    { url: "" },
+    { url: "" }
   ];
 
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+    const saved = localStorage.getItem('isLoggedIn');
+    return saved === 'true';
+  });
   const [selectedSheet, setSelectedSheet] = useState<Sheet | null>(null);
   const [sheetData, setSheetData] = useState<string[][]>([]);
 
   useEffect(() => {
     if (selectedSheet) {
-      fetchSheetData(selectedSheet.title + "!A1:Z1000");
+      fetchSheetData(selectedSheet.title + "!A1:Z100000");
     }
   }, [selectedSheet]);
 
@@ -94,8 +99,8 @@ const App: React.FC = () => {
     const newSheetData = [...sheetData];
     newSheetData[rowIndex][cellIndex] = value;
 
-    // Atualiza o grupo com base nos valores das colunas CFC, CLÍNICA e POSTO DETRAN
-    if (cellIndex === 2 || cellIndex === 3 || cellIndex === 4) {
+    // Atualiza o grupo com base nos valores das colunas CFC, CLÍNICA e POSTO DETRAN, exceto na aba "Usuários"
+    if (selectedSheet?.title !== "Usuários" && (cellIndex === 2 || cellIndex === 3 || cellIndex === 4)) {
       const cfc = newSheetData[rowIndex][2];
       const clinica = newSheetData[rowIndex][3];
       const postoDetran = newSheetData[rowIndex][4];
@@ -147,65 +152,84 @@ const App: React.FC = () => {
     }
   };
 
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem('isLoggedIn', 'true');
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setSelectedSheet(null);
+    setSheetData([]);
+    localStorage.removeItem('isLoggedIn');
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>CNH Popular</h1>
+        {isLoggedIn && <button onClick={handleLogout}>Sair</button>}
       </header>
       <main>
-        {/* Botões para selecionar cada planilha */}
-        <div className="button-container">
-          {sheets.map((sheet, index) => (
-            <button
-              key={index}
-              onClick={() => handleSheetSelect(sheet)}
-              style={{
-                backgroundColor: selectedSheet?.title === sheet.title ? "#387c5c" : "",
-                color: selectedSheet?.title === sheet.title ? "white" : "",
-              }}
-            >
-              {sheet.title}
-            </button>
-          ))}
-          <button onClick={saveChanges}>Salvar alterações</button>
-        </div>
+        {!isLoggedIn ? (
+          <Login onLoginSuccess={handleLoginSuccess} />
+        ) : (
+          <>
+            {/* Botões para selecionar cada planilha */}
+            <div className="button-container">
+              {sheets.map((sheet, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSheetSelect(sheet)}
+                  style={{
+                    backgroundColor: selectedSheet?.title === sheet.title ? "#387c5c" : "",
+                    color: selectedSheet?.title === sheet.title ? "white" : "",
+                  }}
+                >
+                  {sheet.title}
+                </button>
+              ))}
+              <button onClick={saveChanges}>Salvar alterações</button>
+            </div>
 
-        {/* Botão para adicionar linha em branco */}
-        <div className="add-blank-field-container">
-          <button onClick={addBlankRow}>Adicionar Linha em Branco</button>
-        </div>
+            {/* Botão para adicionar linha em branco */}
+            <div className="add-blank-field-container">
+              <button onClick={addBlankRow}>Adicionar Linha em Branco</button>
+            </div>
 
-        {/* Renderiza os dados da planilha */}
-        <div className="sheet-data-container">
-          {sheetData.length > 0 ? (
-            <table>
-              <thead>
-                <tr>
-                  {sheetData[0].map((header, index) => (
-                    <th key={index}>{header}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {sheetData.slice(1).map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {row.map((cell, cellIndex) => (
-                      <td key={cellIndex}>
-                        <input
-                          type="text"
-                          value={cell}
-                          onChange={(e) => handleInputChange(rowIndex + 1, cellIndex, e.target.value)}
-                        />
-                      </td>
+            {/* Renderiza os dados da planilha */}
+            <div className="sheet-data-container">
+              {sheetData.length > 0 ? (
+                <table>
+                  <thead>
+                    <tr>
+                      {sheetData[0].map((header, index) => (
+                        <th key={index}>{header}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sheetData.slice(1).map((row, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {row.map((cell, cellIndex) => (
+                          <td key={cellIndex}>
+                            <input
+                              type="text"
+                              value={cell}
+                              onChange={(e) => handleInputChange(rowIndex + 1, cellIndex, e.target.value)}
+                            />
+                          </td>
+                        ))}
+                      </tr>
                     ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <p>Selecione uma planilha para visualizar.</p>
-          )}
-        </div>
+                  </tbody>
+                </table>
+              ) : (
+                <p>Selecione uma planilha para visualizar.</p>
+              )}
+            </div>
+          </>
+        )}
       </main>
     </div>
   );
