@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import axios from 'axios';
-import debounce from 'lodash.debounce';
 import {
   Table,
   TableBody,
@@ -14,7 +13,6 @@ import {
   Button,
   TablePagination
 } from '@mui/material';
-import { FixedSizeList as List } from 'react-window';
 
 type SheetData = {
   [key: string]: string;
@@ -49,19 +47,10 @@ const SheetViewer: React.FC<SheetProps> = ({ url, title }) => {
     fetchData();
   }, [url]);
 
-  const handleCellChangeDebounced = useCallback(
-    debounce((rowIndex: number, columnKey: string, value: string) => {
-      setEditedData((prevData) => {
-        const updatedData = [...prevData];
-        updatedData[rowIndex][columnKey] = value;
-        return updatedData;
-      });
-    }, 300),
-    []
-  );
-
   const handleCellChange = (rowIndex: number, columnKey: string, value: string) => {
-    handleCellChangeDebounced(rowIndex, columnKey, value);
+    const updatedData = [...editedData];
+    updatedData[rowIndex][columnKey] = value;
+    setEditedData(updatedData);
   };
 
   const handleSave = () => {
@@ -75,25 +64,6 @@ const SheetViewer: React.FC<SheetProps> = ({ url, title }) => {
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
-
-  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
-    const row = editedData[index];
-    return (
-      <TableRow style={style} key={index}>
-        {Object.keys(row).map((columnKey) => (
-          <TableCell key={columnKey}>
-            <TextField
-              value={row[columnKey]}
-              onChange={(e) => handleCellChange(index, columnKey, e.target.value)}
-              variant="outlined"
-              size="small"
-              fullWidth
-            />
-          </TableCell>
-        ))}
-      </TableRow>
-    );
   };
 
   return (
@@ -111,14 +81,21 @@ const SheetViewer: React.FC<SheetProps> = ({ url, title }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <List
-              height={400} // altura da área visível
-              itemCount={editedData.length}
-              itemSize={50} // altura de cada linha
-              width="100%"
-            >
-              {Row}
-            </List>
+            {editedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {Object.keys(row).map((columnKey) => (
+                  <TableCell key={columnKey}>
+                    <TextField
+                      value={row[columnKey]}
+                      onChange={(e) => handleCellChange(rowIndex, columnKey, e.target.value)}
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                    />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
