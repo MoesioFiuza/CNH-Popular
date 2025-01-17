@@ -1,0 +1,99 @@
+.cadastro-posto-detran-container {
+  padding: 20px;
+  font-family: "Poppins", serif;
+  margin-left: -40px;
+}
+
+.base-dados-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.base-dados-table th,
+.base-dados-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.base-dados-table th {
+  background-color: #4caf50;
+  color: white;
+  text-transform: uppercase;
+}
+
+.base-dados-table input {
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #fdfdfd;
+  font-size: 14px;
+}
+
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.button-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button-container button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilização responsiva para tabelas */
+@media (max-width: 768px) {
+  .base-dados-table {
+    font-size: 12px;
+  }
+
+  .button-container {
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .button-container button {
+    font-size: 12px;
+    padding: 8px 15px;
+  }
+}
+
+.base-dados-table input:focus {
+  border-color: #4caf50;
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.add-row-button {
+  margin-top: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+}
+
+.add-row-button:hover {
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}

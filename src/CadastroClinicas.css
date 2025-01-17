@@ -1,0 +1,197 @@
+.cadastro-clinicas-container {
+  font-family: "Poppins", serif;
+  background-color: #f9f9f9; /* Fundo claro */
+  min-height: 100vh; /* Garante que a página preencha toda a altura */
+  box-sizing: border-box; /* Inclui padding no cálculo do tamanho */
+  /* margin-left: 300px; */
+}
+
+.base-dados-table {
+  background-color: red; /* Fundo claro */
+  width: 100%; /* Tabela ocupa toda a largura */
+  border-collapse: collapse; /* Remove espaços entre bordas */
+  margin-top: 20px; /* Espaçamento acima da tabela */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
+  table-layout: fixed; /* Garante que as colunas tenham larguras fixas inicialmente */
+}
+
+.base-dados-table th,
+.base-dados-table td {
+  border: 1px solid #ddd; /* Bordas discretas */
+  padding: 10px; /* Espaçamento interno */
+  text-align: center; /* Alinhamento do texto */
+  position: relative; /* Necessário para colocar o "resizer" sobre as colunas */
+  word-wrap: break-word; /* Quebra de linha em palavras longas */
+}
+
+.base-dados-table th {
+  background-color: #4caf50; /* Cor de fundo verde */
+  color: white; /* Texto branco */
+  text-transform: uppercase; /* Texto em maiúsculas */
+  font-size: 14px; /* Tamanho consistente do texto */
+}
+
+.base-dados-table td {
+  background-color: #ffffff; /* Fundo branco */
+  font-size: 14px; /* Tamanho consistente do texto */
+  color: #333; /* Cor do texto */
+}
+
+.base-dados-table input,
+.base-dados-table select {
+  width: 100%; /* Campos ocupam toda a célula */
+  border: 1px solid #ddd; /* Bordas discretas */
+  padding: 8px; /* Espaçamento interno */
+  border-radius: 4px; /* Bordas arredondadas */
+  box-sizing: border-box; /* Inclui padding no cálculo do tamanho */
+  background-color: #fdfdfd; /* Fundo branco */
+  font-size: 14px; /* Tamanho consistente do texto */
+  outline: none; /* Remove a borda azul ao focar */
+  transition: border-color 0.3s ease; /* Transição ao focar */
+}
+
+.base-dados-table input:focus,
+.base-dados-table select:focus {
+  border-color: #4caf50; /* Cor da borda ao focar */
+}
+
+.base-dados-table input[readonly] {
+  background-color: #f5f5f5; /* Fundo cinza claro para campos somente leitura */
+  cursor: not-allowed; /* Indica que o campo não é editável */
+}
+
+.button-container {
+  margin-top: 20px; /* Espaçamento acima dos botões */
+  display: flex; /* Botões alinhados horizontalmente */
+  justify-content: flex-end; /* Alinhados à direita */
+  gap: 10px; /* Espaçamento uniforme entre botões */
+}
+
+.button-container button {
+  padding: 10px 20px; /* Tamanho dos botões */
+  border: none; /* Remove bordas padrão */
+  border-radius: 4px; /* Bordas arredondadas */
+  background-color: #4caf50; /* Fundo verde */
+  color: white; /* Texto branco */
+  cursor: pointer; /* Cursor de botão */
+  font-size: 14px; /* Tamanho do texto */
+  font-weight: bold; /* Negrito para destaque */
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease; /* Efeito de transição */
+}
+
+.button-container button:hover {
+  background-color: #45a049; /* Fundo mais escuro no hover */
+  transform: scale(1.05); /* Aumenta o botão no hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para destaque no hover */
+}
+
+.button-container button:active {
+  transform: scale(0.95); /* Efeito de clique */
+  background-color: #3e8e41; /* Fundo ainda mais escuro */
+}
+
+.base-dados-table th .resizer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 10px; /* Largura do redimensionador */
+  cursor: ew-resize; /* Cursor de redimensionamento horizontal */
+}
+
+.loading-container {
+  display: flex; /* Alinhamento central */
+  justify-content: center; /* Alinhamento horizontal */
+  align-items: center; /* Alinhamento vertical */
+  height: 100vh; /* Altura total da viewport */
+  background-color: transparent;
+}
+
+.loading-circle {
+  border: 6px solid #f3f3f3; /* Fundo do círculo */
+  border-top: 6px solid #ffc107; /* Amarelo */
+  border-radius: 50%; /* Círculo */
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite; /* Animação de rotação */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.row-count {
+  margin-top: 20px; /* Espaçamento acima da contagem */
+  font-size: 16px; /* Tamanho do texto */
+  font-weight: bold; /* Texto em negrito */
+  color: #4caf50; /* Cor verde para consistência */
+  text-align: left; /* Alinha o texto à direita */
+  background-color: #f9f9f9; /* Fundo claro */
+  padding: 10px; /* Espaçamento interno */
+  border-radius: 4px; /* Bordas arredondadas */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f9f9f9; /* Fundo claro */
+  border-radius: 8px; /* Bordas arredondadas */
+}
+
+.filters select {
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333; /* Cor do texto */
+  background-color: #fff; /* Fundo branco */
+  border: 2px solid #ddd; /* Bordas suaves */
+  border-radius: 8px; /* Bordas arredondadas */
+  transition: all 0.3s ease; /* Transição para interações */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  outline: none; /* Remove borda azul no foco */
+}
+
+.filters select:hover {
+  border-color: #4caf50; /* Borda verde no hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra mais forte */
+}
+
+.filters select:focus {
+  border-color: #4caf50; /* Destaque no foco */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Sombra de foco */
+}
+
+.row-count {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4caf50;
+  padding: 8px 12px;
+  background-color: #fff;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-row-button {
+  margin-top: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+}
+
+.add-row-button:hover {
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
