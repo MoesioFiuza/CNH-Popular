@@ -1,14 +1,13 @@
-/* Estilos globais */
-
 body {
-  background-color: #f4f4f9; /* Define a cor de fundo para todo o site */
+  background-color: #f4f4f9;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  font-family: "Poppins", serif;
 }
 
 .App {
   text-align: center;
-  font-family: Arial, sans-serif;
   background-color: #f4f4f9;
   color: #333;
   min-height: 100vh;
@@ -17,7 +16,6 @@ body {
   align-items: center;
 }
 
-/* Cabeçalho */
 .App-header {
   background-color: #387c5c;
   padding: 20px;
@@ -25,19 +23,100 @@ body {
   font-size: 24px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 100%;
-  text-align: center;
-}
-
-/* Botões de seleção */
-.button-container {
-  margin: 20px 0;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
 }
 
-button {
+.App-header > h1 {
+  margin-left: 40px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.user-data {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  margin-right: 15px;
+}
+
+.user-data > p {
+  color: white;
+  font-size: 14px;
+  margin: 0;
+}
+
+.logout-button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logout-button:hover {
+  background-color: rgb(230, 36, 36);
+}
+
+.main-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  position: sticky;
+  left: 0;
+  height: 100vh;
+  width: 210px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.usuarios {
+  margin-right: 20px;
+  margin-top: 40px;
+}
+
+.sidebar button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  text-align: left;
+  border: none;
+  background-color: #f4f4f4; /* Cor padrão do botão */
+  color: #333; /* Cor padrão do texto */
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Estilo ao passar o mouse */
+.sidebar button:hover {
+  background-color: #ddd;
+}
+
+/* Botão selecionado */
+.sidebar button.selected {
+  background-color: #4caf50; /* Cor de destaque (verde) */
+  color: white; /* Cor do texto para contraste */
+  font-weight: bold;
+}
+
+.sidebar button {
   padding: 10px 16px;
   font-size: 16px;
   border: none;
@@ -46,72 +125,153 @@ button {
   background-color: #dcc9dc;
   color: black;
   transition: background-color 0.3s ease;
+  margin-bottom: 10px;
 }
 
-button:hover {
-  background-color: #4b8263;
-}
-
-button:active {
-  transform: scale(0.98);
-}
-
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-button.selected {
+.sidebar button.selected {
   background-color: #387c5c;
+  color: white;
   font-weight: bold;
 }
 
-/* Botão para adicionar linha */
-.add-blank-field-container {
-  margin-bottom: 20px;
+.sidebar button:hover {
+  background-color: #4b8263;
 }
 
-.add-blank-field-container button {
-  background-color: #dcc9dc;
+.content {
+  margin-left: 10px;
+  padding: 20px;
+  flex: 1;
 }
 
-.add-blank-field-container button:hover {
-  background-color: #357abd;
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Alinha à direita */
+  align-items: center; /* Centraliza os botões verticalmente */
+  gap: 10px; /* Espaçamento entre os botões */
+  margin-top: 10px; /* Espaçamento do botão "Sair" */
+  position: absolute;
+  top: 110px; /* Ajusta a altura logo abaixo do botão "Sair" */
+  right: 0px; /* Mantém alinhado à direita */
 }
 
+.button-container button {
+  padding: 10px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #387c5c;
+  color: white;
+  transition: background-color 0.3s ease;
+}
 
+.button-container button:hover {
+  background-color: #4caf50; /* Efeito ao passar o mouse */
+}
+
+/* Container de dados da planilha */
 .sheet-data-container {
   width: 100%;
   overflow-x: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
   background-color: #f8f4f4;
   margin-top: 20px;
 }
 
 table {
   width: 100%;
-  table-layout: fixed;
+  table-layout: auto;
   border-collapse: collapse;
 }
 
-th, td {
-  padding: 12px;
+th,
+td {
+  padding: 16px; /* Aumentando o padding para mais espaço dentro das células */
   text-align: center;
-  border: 1px solid #e0e0e0;
-  word-wrap: break-word;
   vertical-align: middle;
+  border: 1px solid #e0e0e0;
+  word-wrap: break-word; /* Permite quebra de linha */
+  white-space: normal; /* Permite quebra de linha */
 }
 
+/* Ajustando o tamanho das colunas no cabeçalho */
 th {
   background-color: #387c5c;
   color: white;
   font-weight: bold;
   text-transform: uppercase;
-  word-wrap: break-word;
-  white-space: normal;
-  min-width: 120px;
   font-size: 14px;
+  padding: 12px;
+  white-space: nowrap; /* Impede que o texto quebre */
+  position: relative;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.resize-handle {
+  width: 5px;
+  height: 100%;
+  cursor: col-resize;
+  background-color: transparent;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+/* Tooltip para mostrar texto completo ao passar o mouse */
+th:hover::after {
+  content: attr(
+    data-fullname
+  ); /* Usa o atributo data-fullname para o texto completo */
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Tooltip para mostrar texto completo ao passar o mouse nas células */
+td:hover::after {
+  content: attr(
+    data-fulltext
+  ); /* Usa o atributo data-fulltext para o texto completo */
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Estilos das células de dados */
+td {
+  min-width: 250px; /* Aumentando a largura mínima das células */
+  padding: 16px; /* Aumentando o padding das células */
+  text-align: left;
+  vertical-align: middle;
+  border: 1px solid #e0e0e0;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 tr:nth-child(even) {
@@ -122,6 +282,7 @@ tr:hover {
   background-color: #f1f1f1;
 }
 
+/* Estilos dos campos de entrada */
 input[type="text"] {
   width: 100%;
   padding: 8px;
@@ -135,4 +296,21 @@ input[type="text"]:focus {
   outline: none;
   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
   border-color: #4a90e2;
+}
+
+/* Estilos para o botão de excluir */
+.btn.excluir {
+  background-color: #f44336; /* Vermelho para o botão de excluir */
+  color: white;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.btn.excluir:hover {
+  background-color: #e53935;
+  transform: scale(1.05);
 }
